@@ -1,4 +1,4 @@
-obj-m += char_driver.o
+obj-m += glad_driver.o
 
 KDIR := /lib/modules/$(shell uname -r)/build
 
