@@ -1,0 +1,65 @@
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+class Node {
+public: 
+	int data;
+	Node* left;
+	Node* right;
+
+	Node(int val) {
+		data = val;
+		left = NULL;
+		right = NULL;
+	}
+};
+
+static int idx = -1;
+
+Node* buildTree(vector<int> preorder)
+{
+	idx++;
+
+	if(preorder[idx] == -1)
+		return NULL;
+
+	Node* root = new Node(preorder[idx]);
+
+	root->left = buildTree(preorder);
+	root->right = buildTree(preorder);
+
+	return root;
+}
+
+void preorder_traverse(Node* root)
+{
+	if(root == NULL)
+		return;
+
+	cout<<root->data<<" ";
+
+	preorder_traverse(root->left);
+	preorder_traverse(root->right);
+}
+
+int count_node(Node* root)
+{
+	if(root == NULL)
+		return 0;
+
+	return count_node(root->left) + count_node(root->right)+1;
+}
+
+int main()
+{
+	vector<int> preorder = {1, 2, -1, -1, 3, 4, -1, -1, 5, -1, -1};
+
+	Node* root = buildTree(preorder);
+
+	preorder_traverse(root);
+
+	cout<<"Total nodes in Tree are: "<<count_node(root)<<endl;	
+	return 0;
+}
