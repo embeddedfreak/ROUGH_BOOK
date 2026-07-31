@@ -1,20 +1,22 @@
 #include<stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 void remove_duplicate(char str[])
 {
-	for(int i = 1; i < strlen(str);i++) {
-		for(int j = 0; j < i; j++) {
-			if(str[i] == str[j]) {
-				for(int r = i; r < strlen(str); r++) {
-					str[r] = str[r+1];
-				}
-				i--;
-			}
-		
-		}
+	bool isdup[256] = {false};
 
+	int j = 0;
+
+	for(int i = 0; i < strlen(str); i++) {
+		if(!isdup[str[i]]) {
+			isdup[str[i]] = true;
+			str[j] = str[i];
+			j++;
+		}
 	}
+
+	str[j] = '\0';
 
 	printf("String after removing duplicates is %s\n", str);
 }
