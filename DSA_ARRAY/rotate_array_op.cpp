@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -7,19 +8,15 @@ void right_rotate(vector<int> &arr, int k)
 {
 	int size = arr.size();
 
-	vector<int> temp;
-
-	for(int i = size-k; i < size; i++) {
-		temp.push_back(arr[i]);	
+	if(size == 0) {
+		return;
 	}
 
-	for(int i = size-1-k; i >= 0; i--) {
-		arr[i+k] = arr[i];
-	}
+	k = k % size;
 
-	for(int i = 0; i < k; i++) {
-		arr[i] = temp[i];
-	}
+	reverse(arr.begin(), arr.end());
+	reverse(arr.begin(), arr.begin()+k);
+	reverse(arr.begin()+k, arr.end());
 }
 
 int main() 
