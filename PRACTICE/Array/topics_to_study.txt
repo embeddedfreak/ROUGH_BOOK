@@ -1,0 +1,487 @@
+C Arrays — Beginner to Advanced
+PART 1 — ARRAY BASICS
+Chapter 1 — Introduction to Arrays
+What is an array?
+Why arrays are needed
+Array vs individual variables
+Elements
+Index
+Position
+Array size
+Array length
+Zero-based indexing
+Array bounds
+Chapter 2 — Declaring Arrays
+Array declaration
+Syntax of array declaration
+Declaring arrays of different data types
+int arrays
+char arrays
+float arrays
+double arrays
+Size of an array
+Valid and invalid array sizes
+Chapter 3 — Initializing Arrays
+Initialization during declaration
+Partial initialization
+Zero initialization
+Initialization using {0}
+Initialization without specifying size
+Excess initializers
+Uninitialized local arrays
+Static array initialization
+Chapter 4 — Accessing Array Elements
+Accessing elements using indexes
+Reading elements
+Modifying elements
+First element
+Last element
+Valid indexes
+Invalid indexes
+Out-of-bounds access
+PART 2 — ARRAY MEMORY
+Chapter 5 — How Arrays Are Stored in Memory
+5.1 Contiguous Memory
+5.2 Memory Addresses of Elements
+5.3 Address Calculation
+5.4 Size of Each Element
+5.5 Relationship Between Index and Address
+5.6 Why Arrays Are Contiguous
+5.7 Memory Layout Visualization
+Chapter 6 — sizeof and Arrays
+6.1 What sizeof Does
+6.2 sizeof(array)
+6.3 sizeof(array[0])
+6.4 Finding Number of Elements
+sizeof(array) / sizeof(array[0])
+
+6.5 sizeof with Different Data Types
+6.6 sizeof and Multidimensional Arrays
+6.7 Common sizeof Mistakes
+PART 3 — ARRAY AND POINTER RELATIONSHIP
+This is one of the most important parts of C.
+
+Chapter 7 — Array Name and Address
+7.1 What Does the Array Name Represent?
+7.2 Array Name in Expressions
+7.3 Array Name and First Element
+7.4 arr
+7.5 &arr[0]
+7.6 Difference Between arr and &arr
+7.7 Array Name Is Not a Normal Variable
+7.8 Can an Array Name Be Changed?
+Chapter 8 — Arrays and Pointers
+8.1 What Is a Pointer?
+8.2 Pointer to an Array Element
+8.3 Pointer Arithmetic
+8.4 arr + 1
+8.5 arr + i
+8.6 *(arr + i)
+8.97 Relationship Between:
+arr[i]
+*(arr + i)
+*(i + arr)
+i[arr]
+
+8.8 Pointer Increment
+8.9 Pointer Decrement
+8.10 Pointer Comparison
+PART 4 — ARRAYS AND FUNCTIONS
+Chapter 9 — Passing Arrays to Functions
+9.4.1 Why Pass an Array to a Function?
+9.2 Array Parameters
+9.3 Array Parameter Syntax
+9.4 Array Parameter vs Pointer Parameter
+9.5 What Actually Gets Passed?
+9.6 Passing Array Size
+9.7 Modifying an Array Inside a Function
+9.8 Read-Only Array Parameters
+Chapter 10 — const Arrays
+10.1 Why Use const?
+10.2 Read-Only Array Data
+10.3 Pointer to const
+10.4 const With Array Parameters
+10.5 What Can and Cannot Be Modified?
+PART 5 — MULTIDIMENSIONAL ARRAYS
+Chapter 11 — Two-Dimensional Arrays
+11.1 What Is a 2D Array?
+11.2 Rows and Columns
+11.3 Declaration
+11.4 Initialization
+11.5 Accessing Elements
+11.6 Memory Layout
+11.7 Row-Major Order
+11.8 Address Calculation
+Chapter 12 — Three-Dimensional and Higher Arrays
+12.1 3D Arrays
+12.2 4D Arrays
+12.3 Multidimensional Array Syntax
+12.4 Memory Layout
+12.5 Indexing Multidimensional Arrays
+12.6 sizeof Multidimensional Arrays
+PART 6 — POINTERS TO ARRAYS
+Chapter 13 — Pointer to an Array
+This is different from "array of pointers."
+
+13.1 Pointer to Single Element
+int *p;
+
+13.2 Pointer to Entire Array
+int (*p)[5];
+
+13.3 Understanding the Parentheses
+13.4 Pointer Arithmetic
+13.5 Accessing Elements Through Pointer to Array
+13.6 Pointer to 2D Array
+PART 7 — ARRAY OF POINTERS
+Chapter 14 — Array of Pointers
+14.1 What Is an Array of Pointers?
+14.2 Difference Between:
+int *arr[5]
+
+and
+
+int (*arr)[5]
+
+14.3 Array of int Pointers
+14.4 Array of char Pointers
+14.5 Memory Layout
+14.6 Practical Uses
+PART 8 — STRINGS AND CHARACTER ARRAYS
+Chapter 15 — Character Arrays
+15.1 Character Array vs String
+15.2 Character Array Initialization
+15.3 Null Character '\0'
+15.4 String Termination
+15.5 String Size vs String Length
+15.6 Character Array Memory
+Chapter 16 — Strings as Arrays
+16.1 String Literals
+16.2 Character Array Containing a String
+16.3 String Literal vs Character Array
+16.4 Modifying Strings
+16.5 String Storage
+16.6 String Arrays
+PART 9 — ARRAY OF STRINGS
+Chapter 17 — Multiple Strings
+17.1 2D Character Arrays
+17.2 Array of String Pointers
+17.3 Difference Between:
+char names[5][20];
+
+and
+
+char *names[5];
+
+17.4 Memory Layout
+17.5 Modifying Strings
+17.6 String Literals and Pointers
+PART 10 — DYNAMIC ARRAYS
+Chapter 18 — Static vs Dynamic Arrays
+18.1 Fixed-Size Arrays
+18.2 Runtime Size
+18.3 Stack Allocation
+18.4 Heap Allocation
+18.5 When Dynamic Arrays Are Needed
+Chapter 19 — Dynamic Array Creation
+19.1 malloc
+19.2 calloc
+19.3 realloc
+19.4 free
+19.5 Allocating Space for Arrays
+19.6 Resizing Arrays
+19.7 Growing Arrays
+19.8 Shrinking Arrays
+PART 11 — ARRAY MEMORY MANAGEMENT
+Chapter 20 — Memory Problems With Arrays
+20.1 Buffer Overflow
+20.2 Out-of-Bounds Access
+20.3 Memory Leak
+20.4 Dangling Pointer
+20.5 Use-After-Free
+20.6 Double Free
+20.7 Invalid Memory Access
+20.8 Uninitialized Arrays
+20.9 Uninitialized Elements
+PART 12 — ARRAYS AND C LIBRARY
+Chapter 21 — Memory Functions
+21.1 memcpy
+21.2 memmove
+21.3 memset
+21.4 memcmp
+Important Concepts
+Source
+Destination
+Number of bytes
+Byte-level copying
+Overlapping memory
+Why sizeof matters
+For example, the code you asked about earlier:
+
+memcpy(buffer, dest, 100);
+
+is actually a perfect example for this chapter because 100 means 100 bytes, not necessarily 100 integers.
+
+PART 13 — ARRAYS AND malloc
+Chapter 22 — Dynamic Multidimensional Arrays
+22.1 Dynamically Allocated 1D Array
+22.2 Dynamically Allocated 2D Array
+22.3 Array of Pointers
+22.4 Pointer to Dynamically Allocated Array
+22.5 Contiguous 2D Allocation
+22.6 Non-Contiguous 2D Allocation
+22.7 Freeing Multidimensional Arrays
+PART 14 — VARIABLE LENGTH ARRAYS
+Chapter 23 — VLA
+23.1 What Is a Variable Length Array?
+23.2 Runtime Array Size
+23.3 VLA Syntax
+23.4 VLA Lifetime
+23.5 VLA and Stack
+23.6 VLA as Function Parameter
+23.7 VLA Limitations
+23.8 C Standard Considerations
+PART 15 — ARRAYS AND STORAGE CLASSES
+Chapter 24 — Array Lifetime and Storage
+24.1 Local Arrays
+24.2 Global Arrays
+24.3 Static Arrays
+24.4 static Local Arrays
+24.5 extern Arrays
+24.6 Initialization Differences
+24.7 Lifetime
+24.8 Scope
+24.9 Linkage
+PART 16 — ARRAYS AND const / static / restrict
+Chapter 25 — Advanced Array Declarations
+25.1 const Arrays
+25.2 static Array Parameters
+25.3 restrict Pointers
+25.4 static Inside Function Parameters
+25.5 Array Qualifiers
+25.6 Understanding Complex Declarations
+PART 17 — ARRAY DECLARATION MASTERY
+Chapter 26 — Reading Complex Array Declarations
+Learn to understand declarations such as:
+
+int arr[10];
+
+int *arr[10];
+
+int (*arr)[10];
+
+int (*arr[10])(int);
+
+int (*(*arr)[10]);
+
+26.1 Operator Precedence in Declarations
+26.2 []
+26.3 *
+26.4 ()
+26.5 Reading From Identifier Outward
+26.6 Arrays vs Pointers vs Functions
+This chapter will make complicated C declarations much easier.
+
+PART 18 — ARRAYS AND STRUCTURES
+Chapter 27 — Arrays Inside Structures
+27.1 Structure Containing an Array
+27.2 Array of Structures
+27.3 Structure Arrays and Memory
+27.4 Accessing Members
+27.5 Nested Arrays
+27.6 Padding and Alignment
+PART 19 — ARRAYS AND ENUMS / UNIONS
+Chapter 28 — Other C Types With Arrays
+28.1 Arrays of enum
+28.2 Arrays of union
+28.3 Arrays Inside Unions
+28.4 Memory Considerations
+PART 20 — ADVANCED MEMORY CONCEPTS
+Chapter 29 — Array Alignment
+29.1 Alignment
+29.2 Why Alignment Matters
+29.3 Aligned Addresses
+29.4 Padding
+29.5 Structure + Array Alignment
+29.6 Performance Considerations
+Chapter 30 — Arrays and Endianness
+30.1 What Is Endianness?
+30.2 Little Endian
+30.3 Big Endian
+30.4 Viewing Integer Bytes
+30.5 Arrays of Bytes
+30.6 Memory Representation
+PART 21 — C LANGUAGE RULES
+Chapter 31 — Array Decay
+Very important C concept.
+
+31.1 What Is Array-to-Pointer Conversion?
+31.2 When Does an Array Decay?
+31.3 When Does an Array NOT Decay?
+31.4 Function Arguments
+31.5 sizeof
+31.6 &
+31.7 String Literals
+31.8 Multidimensional Arrays
+You should be able to explain exactly why:
+
+sizeof(arr)
+
+and
+
+sizeof(pointer)
+
+can produce completely different results.
+
+PART 22 — ARRAY TYPES
+Chapter 32 — Understanding Array Types
+32.1 Type of arr
+32.2 Type of &arr
+32.3 Type of arr[0]
+32.4 Type of &arr[0]
+32.5 Type of arr + 1
+32.6 Compatible Array Types
+32.7 Multidimensional Array Types
+PART 23 — ADVANCED FUNCTION PARAMETERS
+Chapter 33 — Multidimensional Arrays as Function Parameters
+33.1 Passing 2D Arrays
+33.2 Specifying Column Size
+33.3 Pointer-to-Array Parameters
+33.4 VLA Parameters
+33.5 static Array Parameters
+33.6 const Array Parameters
+PART 24 — ARRAYS AND FUNCTION POINTERS
+Chapter 34 — Arrays of Function Pointers
+34.1 What Is a Function Pointer?
+34.2 Array of Function Pointers
+34.3 Calling Functions Through the Array
+34.4 Dispatch Tables
+34.5 Reading Complex Declarations
+This is an advanced C topic, but useful for becoming genuinely strong in C.
+
+PART 25 — ARRAYS IN REAL C PROGRAMS
+Chapter 35 — Practical Array Design
+35.1 Choosing Array Size
+35.2 Fixed vs Dynamic
+35.3 Memory Efficiency
+35.4 Cache-Friendly Data
+35.5 Contiguous Data
+35.6 Data Layout
+35.7 API Design With Arrays
+35.8 Ownership of Array Memory
+PART 26 — DEBUGGING ARRAYS
+Chapter 36 — Debugging Array Problems
+36.1 Finding Out-of-Bounds Access
+36.2 Finding Incorrect Indexes
+36.3 Finding Memory Corruption
+36.4 Debugging memcpy
+36.5 Debugging memset
+36.6 Debugging Dynamic Arrays
+36.7 Debugging 2D Arrays
+36.8 Using Compiler Warnings
+36.9 Using Debuggers
+36.10 Using Sanitizers
+PART 27 — ARRAY INTERVIEW CONCEPTS IN C
+Not algorithms—C language concepts.
+
+Chapter 37 — Questions You Should Be Able to Answer
+Beginner
+What is an array?
+Why does indexing start at 0?
+How are arrays stored?
+What is an array element?
+How do you find array size?
+What happens when you access outside the array?
+What is the difference between array size and string length?
+Intermediate
+What is the relationship between arrays and pointers?
+What is array decay?
+Why can't we assign one array to another using =?
+What happens when an array is passed to a function?
+Why is the array size lost inside a function?
+What is the difference between arr, &arr, and &arr[0]?
+How does sizeof behave with arrays?
+Advanced
+Difference between int *p[10] and int (*p)[10]
+How are 2D arrays represented in memory?
+How do you dynamically allocate a 2D array?
+What is a VLA?
+What does static mean in an array parameter?
+What does restrict mean?
+How does array-to-pointer conversion work?
+How do multidimensional arrays decay?
+What is the type of &arr?
+How does pointer arithmetic work with arrays?
+The Learning Order I Recommend
+Don't study all 37 chapters randomly.
+
+Follow this order:
+
+LEVEL 1 — Absolute Beginner
+│
+├── 1. Introduction
+├── 2. Declaration
+├── 3. Initialization
+├── 4. Accessing Elements
+│
+▼
+LEVEL 2 — Memory
+│
+├── 5. Array Memory
+├── 6. sizeof
+│
+▼
+LEVEL 3 — Pointers
+│
+├── 7. Array Name & Address
+├── 8. Arrays & Pointers
+│
+▼
+LEVEL 4 — Functions
+│
+├── 9. Arrays as Function Arguments
+├── 10. const Arrays
+│
+▼
+LEVEL 5 — Multidimensional Arrays
+│
+├── 11. 2D Arrays
+├── 12. 3D+ Arrays
+├── 13. Pointer to Array
+├── 14. Array of Pointers
+│
+▼
+LEVEL 6 — Strings
+│
+├── 15. Character Arrays
+├── 16. Strings
+├── 17. Array of Strings
+│
+▼
+LEVEL 7 — Dynamic Memory
+│
+├── 18. Static vs Dynamic
+├── 19. malloc/calloc/realloc/free
+├── 20. Memory Problems
+├── 22. Dynamic 2D Arrays
+│
+▼
+LEVEL 8 — C Language Internals
+│
+├── 23. VLA
+├── 24. Storage Classes
+├── 25. const/static/restrict
+├── 26. Complex Declarations
+├── 31. Array Decay
+├── 32. Array Types
+├── 33. Advanced Parameters
+│
+▼
+LEVEL 9 — Advanced C
+│
+├── 27. Arrays + Structures
+├── 29. Alignment
+├── 30. Endianness
+├── 34. Function Pointer Arrays
+├── 35. Real-World Array Design
+└── 36. Debugging
