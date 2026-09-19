@@ -1,0 +1,47 @@
+Here’s a good practice set, ordered roughly from easy to harder:
+
+String-function implementation questions
+Implement strlen() — return the length of a null-terminated string.
+
+Implement strcpy() — copy one string into another.
+
+Implement strncpy() — copy at most n characters.
+
+Implement strcmp() — lexicographically compare two strings.
+
+Implement strncmp() — compare at most n characters.
+
+Implement strcat() — append one string to another.
+
+Implement strncat() — append at most n characters.
+
+Implement strchr() — find the first occurrence of a character.
+
+Implement strrchr() — find the last occurrence of a character.
+
+Implement strstr() — find the first occurrence of a substring.
+
+Implement strdup() — allocate memory and duplicate a string.
+
+Implement strtok() — split a string using delimiters.
+
+Implement memcpy() — copy n bytes between memory regions.
+
+Implement memmove() — copy n bytes while correctly handling overlapping regions.
+
+Implement memset() — fill n bytes with a value.
+
+Implement memcmp() — compare n bytes of two memory regions.
+
+Implement strspn() — find the length of the initial segment containing only characters from a set.
+
+Implement strcspn() — find the length of the initial segment containing none of the characters from a set.
+
+Implement strpbrk() — find the first character matching any character from a set.
+
+Implement strerror()-like behavior for a small custom set of error codes.
+
+Recommended order
+Start with 1 → 10, then 13 → 16, and finally attempt 11, 12, 17–20.
+
+When you paste your implementation, I can review it against the actual standard-function semantics, including edge cases, pointer behavior, const correctness, and undefined behavior.
