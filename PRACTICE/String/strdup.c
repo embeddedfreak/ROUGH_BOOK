@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+#if 0 
 char* my_strdup(const char* str)
 {
 	size_t len = 0;
@@ -28,6 +30,23 @@ char* my_strdup(const char* str)
 	*dup = '\0';
 
 	return dupbkp;
+}
+#endif
+
+char* my_strdup(const char* str)
+{
+	size_t len = strlen(str) + 1;
+
+	char* dup = malloc(len);
+
+	if(dup == NULL) {
+		return dup;
+	}
+
+	memcpy(dup, str, len);
+
+	return dup;
+
 }
 
 int main()
