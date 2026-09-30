@@ -1,0 +1,1396 @@
+1. First understand: What is a string in C?
+The most important interview statement is:
+
+C does not have a built-in string data type. A C string is a sequence of characters terminated by '\0'.
+
+For example:
+
+char str[] = "Hello";
+
+Memory:
+
+Index:   0    1    2    3    4     5
+       +----+----+----+----+-----+-----+
+Value: | H  | e  | l  | l  | o   | \0  |
+       +----+----+----+----+-----+-----+
+
+So:
+
+"Hello"
+
+contains 6 characters in memory, not 5.
+
+The fifth character is:
+
+'o'
+
+and the sixth is:
+
+'\0'
+
+The '\0' is what tells string functions where the string ends. 
+G
+GNU Operating System
++1
+
+2. Declaration vs initialization
+This distinction is extremely important for interviews.
+
+Declaration
+char str[10];
+
+Means:
+
+Create an array capable of storing 10 characters.
+
+At this point, you have allocated storage.
+
+But you haven't intentionally given it a string value.
+
+Conceptually:
+
+str
+ ↓
++----+----+----+----+----+----+----+----+----+----+
+| ?? | ?? | ?? | ?? | ?? | ?? | ?? | ?? | ?? | ?? |
++----+----+----+----+----+----+----+----+----+----+
+
+For an automatic local variable, the elements have indeterminate values until you initialize them.
+
+3. Initialization
+Case 1
+char str[] = "Hello";
+
+This is valid.
+
+The compiler determines the size from the initializer:
+
+'H' 'e' 'l' 'l' 'o' '\0'
+
+Therefore:
+
+sizeof(str) == 6
+
+This is one of the most useful things to remember.
+
+The compiler effectively creates:
+
+char str[6] = {'H', 'e', 'l', 'l', 'o', '\0'};
+
+
+C
+Cornell Computer Science
++1
+4. Why is char str[]; not allowed?
+This is your main question.
+
+char str[];
+
+is not a complete declaration of an ordinary array object because the compiler doesn't know how much storage to allocate.
+
+Think:
+
+char str[?];
+
+What should ? be?
+
+char = 1 byte
+
+char str[10];  → 10 bytes
+char str[20];  → 20 bytes
+char str[100]; → 100 bytes
+
+But:
+
+char str[];
+
+gives the compiler no size and no initializer from which the size can be determined.
+
+Therefore it doesn't know the size of the object.
+
+But this works:
+char str[] = "Hello";
+
+Because the compiler can calculate:
+
+H e l l o \0
+      ↓
+    6 chars
+
+So:
+
+char str[6];
+
+is inferred automatically.
+
+The C language allows an array of unknown size to have its size determined by an initializer; a string literal is one such initializer for a character array. 
+C
+CMU SEI
++1
+
+Interview answer
+If interviewer asks:
+
+Why is char str[]; invalid?
+
+Say:
+
+"str is an array whose size has not been specified. Without an initializer, the compiler has no information from which to determine the array size, so it cannot allocate storage for the object."
+
+That's the clean answer.
+
+5. Why is char str[20] = "hello"; valid?
+Because the array has enough space.
+
+char str[20] = "hello";
+
+Memory:
+
+H e l l o \0 \0 \0 \0 \0 ... 
+
+The remaining elements are initialized to zero. 
+M
+Microsoft Learn
+
+So:
+
+sizeof(str)
+
+is:
+
+20
+
+but:
+
+strlen(str)
+
+is:
+
+5
+
+This distinction is very important.
+
+Remember:
+sizeof → allocated array size
+strlen → characters before '\0'
+
+6. char str[] vs char str[20]
+char str[] = "Hello";
+
+Compiler decides the size:
+
+H e l l o \0
+<--- 6 --->
+
+Therefore:
+
+sizeof(str) = 6
+
+Whereas:
+
+char str[20] = "Hello";
+
+has:
+
+sizeof(str) = 20
+strlen(str) = 5
+
+This is a classic interview question.
+
+7. char *str = "hello" — VERY IMPORTANT
+You wrote:
+
+char* str = "hello";
+
+This needs special attention.
+
+A string literal such as:
+
+"hello"
+
+is a string literal stored somewhere in the program's memory.
+
+A pointer can point to it:
+
+const char *str = "hello";
+
+For modern C programming, prefer const char * when you don't intend to modify the literal. 
+C
+Cornell Computer Science
++1
+
+Compare:
+
+char str[] = "hello";
+
+with:
+
+const char *str = "hello";
+
+First one
+char str[] = "hello";
+
+creates an array containing a copy:
+
+str
+ ↓
++---+---+---+---+---+----+
+| h | e | l | l | o | \0 |
++---+---+---+---+---+----+
+
+You can modify it:
+
+str[0] = 'H';
+
+Now:
+
+Hello
+
+Second one
+const char *str = "hello";
+
+str is a pointer pointing to the string literal.
+
+Don't do:
+
+str[0] = 'H';    // WRONG
+
+Modifying a string literal is not allowed. 
+C
+Cornell Computer Science
++1
+
+Interview table
+Code	What is created?	Can modify characters?
+char str[] = "hello";	Character array	Yes
+char str[20] = "hello";	20-char array	Yes
+const char *str = "hello";	Pointer to literal	No
+char *str = "hello";	Pointer to literal	Don't modify through it
+
+8. The most important concepts you should learn
+For your interview preparation, don't just memorize strlen(), strcpy(), etc.
+
+Learn these concepts in this order.
+
+Level 1 — Character fundamentals
+You should know:
+
+char
+
+ASCII values
+
+character constants: 'A'
+
+string literals: "ABC"
+
+'\0'
+
+difference between 'A' and "A"
+
+character arrays
+
+array indexing
+
+array size
+
+sizeof
+
+Example:
+
+char ch = 'A';
+
+char str[] = "A";
+
+These are completely different.
+
+'A'  → one character
+"A"  → two characters in memory: 'A', '\0'
+
+9. Character array vs C string
+This is another very common interview question.
+
+char arr[3] = {'A', 'B', 'C'};
+
+This is a character array.
+
+It is not necessarily a C string because there is no:
+
+'\0'
+
+at the end.
+
+Whereas:
+
+char str[] = {'A', 'B', 'C', '\0'};
+
+is a C string.
+
+Or:
+
+char str[] = "ABC";
+
+is a C string.
+
+This distinction becomes extremely important when implementing string functions yourself. 
+G
+GNU Operating System
++1
+
+10. strlen() — understand it internally
+strlen("Hello")
+
+returns:
+
+5
+
+not:
+
+6
+
+because strlen() counts characters before '\0'.
+
+You should be able to write:
+
+int my_strlen(char *str)
+{
+    int i = 0;
+
+    while (str[i] != '\0')
+    {
+        i++;
+    }
+
+    return i;
+}
+
+This teaches:
+
+array indexing
+
+'\0'
+
+loops
+
+pointers
+
+string traversal
+
+11. Pointer traversal
+You should understand that:
+
+str[i]
+
+and:
+
+*(str + i)
+
+refer to the same character.
+
+For example:
+
+char str[] = "Hello";
+
+Then:
+
+str[0]
+
+is:
+
+'H'
+
+and:
+
+*(str + 0)
+
+is also:
+
+'H'
+
+Similarly:
+
+str[2]
+
+is equivalent to:
+
+*(str + 2)
+
+This becomes very important for embedded-C interviews.
+
+12. Array and pointer are NOT the same
+Another major interview topic:
+
+char str[] = "Hello";
+
+str is an array.
+
+Whereas:
+
+char *str = "Hello";
+
+str is a pointer.
+
+They may behave similarly in some expressions, but their types and storage are different.
+
+For example:
+
+sizeof(str)
+
+with:
+
+char str[] = "Hello";
+
+gives:
+
+6
+
+But with:
+
+const char *str = "Hello";
+
+it gives the size of the pointer, typically:
+
+4 bytes
+
+on a 32-bit system or:
+
+8 bytes
+
+on a 64-bit system.
+
+13. String input
+You should learn:
+
+scanf("%s", str);
+
+and understand its limitations.
+
+Then:
+
+fgets(str, sizeof(str), stdin);
+
+And understand why gets() should never be used.
+
+Important topics:
+
+buffer size
+
+buffer overflow
+
+spaces
+
+newline
+
+'\0'
+
+input validation
+
+For example:
+
+char name[20];
+
+fgets(name, sizeof(name), stdin);
+
+14. Standard string functions
+You should know these from <string.h>:
+
+Length
+strlen()
+
+Copy
+strcpy()
+strncpy()
+
+Concatenation
+strcat()
+strncat()
+
+Comparison
+strcmp()
+strncmp()
+
+Searching
+strchr()
+strrchr()
+strstr()
+
+Also understand:
+
+memcpy()
+memmove()
+memset()
+memcmp()
+
+because interviewers frequently move from strings into raw memory manipulation.
+
+15. Don't just know library functions
+For interviews, practice implementing:
+
+my_strlen()
+my_strcpy()
+my_strcmp()
+my_strcat()
+my_strstr()
+
+without using <string.h>.
+
+This forces you to understand the actual mechanics.
+
+16. Basic string algorithms
+From your repositories and the type of string problems typically used in DSA interviews, these are the concepts I would put into your syllabus.
+
+A. Traversal
+for (i = 0; str[i] != '\0'; i++)
+
+Learn this extremely well.
+
+Almost every beginner string problem uses it.
+
+B. Reverse a string
+Example:
+
+Hello
+
+↓
+
+olleH
+
+Concepts:
+
+strlen
+
+array indexing
+
+two pointers
+
+swapping
+
+time complexity
+
+in-place modification
+
+Basic pattern:
+
+left →           ← right
+ H e l l o
+
+Swap:
+
+H ↔ o
+e ↔ l
+
+17. Two-pointer technique
+This is one of the most important interview patterns for strings.
+
+left                    right
+ ↓                         ↓
+ H   e   l   l   o
+
+Then:
+
+while (left < right)
+{
+    swap(str[left], str[right]);
+
+    left++;
+    right--;
+}
+
+Used for:
+
+reverse string
+
+palindrome
+
+reverse words
+
+removing characters
+
+partitioning
+
+some substring problems
+
+18. Palindrome
+Example:
+
+madam
+
+Compare:
+
+m == m
+a == a
+d
+
+Two-pointer approach:
+
+left →           ← right
+ m a d a m
+
+Concepts:
+
+two pointers
+
+comparison
+
+string length
+
+symmetry
+
+19. Frequency counting
+Example:
+
+"banana"
+
+Frequency:
+
+b → 1
+a → 3
+n → 2
+
+For C interviews, understand the classic:
+
+int freq[256] = {0};
+
+Then:
+
+freq[(unsigned char)str[i]]++;
+
+This introduces:
+
+arrays
+
+ASCII
+
+indexing using characters
+
+counting
+
+frequency tables
+
+This pattern is extremely useful.
+
+20. Anagram
+Example:
+
+listen
+silent
+
+Both contain the same characters with the same frequencies.
+
+Typical approach:
+
+frequency(string1)
+frequency(string2)
+compare
+
+Concepts:
+
+frequency array
+
+ASCII
+
+character counting
+
+comparison
+
+21. Duplicate characters
+Example:
+
+programming
+
+Find characters occurring more than once.
+
+Again:
+
+int freq[256] = {0};
+
+is a common approach.
+
+You should also know how to solve related problems:
+
+first repeating character
+
+first non-repeating character
+
+unique characters
+
+count occurrences
+
+22. Remove duplicates
+Example:
+
+banana
+
+could become:
+
+ban
+
+This teaches:
+
+read pointer
+
+write pointer
+
+frequency array
+
+in-place modification
+
+The read/write pointer pattern is worth learning separately.
+
+23. Remove a character
+Example:
+
+programming
+
+remove:
+
+'g'
+
+Result:
+
+prorammin
+
+Concept:
+
+read → scans original
+write → creates result
+
+This is another extremely useful interview pattern.
+
+24. Count vowels/consonants
+Example:
+
+Hello World
+
+Learn:
+
+if (str[i] == 'a' ||
+    str[i] == 'e' ||
+    ...)
+
+Then improve it using:
+
+tolower()
+
+from:
+
+<ctype.h>
+
+You should know:
+
+isalpha()
+isdigit()
+isalnum()
+isspace()
+islower()
+isupper()
+tolower()
+toupper()
+
+25. Reverse words
+For:
+
+"Hello World"
+
+possible interview questions include:
+
+World Hello
+
+or:
+
+olleH dlroW
+
+These are different problems.
+
+You should understand:
+
+finding spaces
+
+word boundaries
+
+two pointers
+
+temporary storage
+
+in-place manipulation
+
+26. Substring vs subsequence
+Know this definition very clearly.
+
+Substring
+Characters must be contiguous.
+
+"abc"
+
+From:
+
+"xabcy"
+
+"abc" is a substring.
+
+Subsequence
+Characters don't have to be contiguous, but their order must remain.
+
+From:
+
+"abcde"
+
+"ace" is a subsequence.
+
+This distinction appears frequently in interviews. 
+G
+GitHub
+
+27. Substring searching
+Given:
+
+text = "hello world"
+pattern = "world"
+
+find where pattern occurs.
+
+First learn the simple brute-force approach:
+
+for every starting position
+    compare pattern characters
+
+Then learn:
+
+naive pattern matching
+
+KMP
+
+prefix function / LPS
+
+You don't necessarily need KMP immediately, but understand what problem it solves.
+
+28. String rotation
+Example:
+
+ABC
+
+rotations:
+
+BCA
+CAB
+
+Classic interview problem:
+
+Determine whether one string is a rotation of another.
+
+Important trick:
+
+s1 = "ABCD"
+s2 = "CDAB"
+
+Check whether:
+
+s2
+
+exists inside:
+
+s1 + s1
+
+Concepts:
+
+length
+
+concatenation
+
+substring search
+
+29. String comparison
+Never confuse:
+
+str1 == str2
+
+with string-content comparison.
+
+For C strings:
+
+strcmp(str1, str2)
+
+compares contents.
+
+== compares addresses when the operands are pointers, not the characters making up the strings. 
+C
+Cornell Computer Science
+
+This is a very common interview trap.
+
+30. String copying
+This:
+
+str1 = str2;
+
+doesn't copy the contents of character arrays.
+
+For arrays, you need something such as:
+
+strcpy(str1, str2);
+
+or your own implementation.
+
+But you must ensure the destination has enough capacity.
+
+31. Buffer size and overflow
+This is particularly important for embedded interviews.
+
+Suppose:
+
+char str[5] = "Hello";
+
+There is a problem if you intend to use it as a normal null-terminated string.
+
+You need:
+
+H e l l o \0
+
+which requires:
+
+6 bytes
+
+The C standard permits an explicitly sized character array initialized from a string literal to omit the null character if there isn't room, but then it isn't a null-terminated string. 
+C
+CMU SEI
++1
+
+So understand:
+
+char str[6] = "Hello";  // room for '\0'
+
+versus:
+
+char str[5] = "Hello";  // no room for '\0'
+
+This is an excellent interview discussion point.
+
+32. Dynamic strings
+Eventually learn:
+
+char *str = malloc(100);
+
+Then:
+
+strcpy(str, "Hello");
+
+and finally:
+
+free(str);
+
+Understand:
+
+stack
+heap
+static/read-only storage
+pointer
+allocation
+deallocation
+
+This is particularly useful if your interviews are for embedded C/C.
+
+33. Strings + pointers
+You should be able to explain all of these:
+
+char str[] = "Hello";
+
+char *p = str;
+
+printf("%c", str[0]);
+printf("%c", *p);
+printf("%c", *(p + 1));
+
+You should understand:
+
+str
+ ↓
+H e l l o \0
+ ↑
+ p
+
+and:
+
+p++;
+
+moves to the next character.
+
+34. Strings + const
+Know the difference between:
+
+char *p;
+
+and:
+
+const char *p;
+
+and:
+
+char *const p;
+
+and:
+
+const char *const p;
+
+This is a very good C interview topic.
+
+For example:
+
+const char *p = "Hello";
+
+means:
+
+pointer can change, characters pointed to should not be modified through p.
+
+Whereas:
+
+char *const p = buffer;
+
+means:
+
+pointer itself cannot point somewhere else, but the characters can be modified.
+
+35. sizeof vs strlen — memorize this example
+char str[20] = "Hello";
+
+printf("%zu\n", sizeof(str));
+printf("%zu\n", strlen(str));
+
+Output:
+
+20
+5
+
+Why?
+
+sizeof
+  ↓
+size of array
+
+strlen
+  ↓
+number of characters before '\0'
+
+This one example is worth explaining to your friend.
+
+36. The concepts I recommend for YOUR String folder
+Because I couldn't retrieve the actual contents of your two GitHub directories—the GitHub pages are restricted from my browsing environment—I would organize the concepts you should master into this checklist rather than pretending I saw files I couldn't access.
+
+Foundation
+ char
+
+ ASCII
+
+ character vs string literal
+
+ '\0'
+
+ character array
+
+ C string
+
+ declaration
+
+ initialization
+
+ array size
+
+ sizeof
+
+ strlen
+
+Arrays + pointers
+ array indexing
+
+ pointer basics
+
+ pointer arithmetic
+
+ array-to-pointer conversion
+
+ char *
+
+ const char *
+
+ pointer vs array
+
+ passing strings to functions
+
+ modifying strings through pointers
+
+Input/output
+ scanf("%s")
+
+ fgets()
+
+ whitespace handling
+
+ newline handling
+
+ buffer size
+
+ buffer overflow
+
+ why gets() is unsafe
+
+Library functions
+ strlen
+
+ strcpy
+
+ strncpy
+
+ strcat
+
+ strncat
+
+ strcmp
+
+ strncmp
+
+ strchr
+
+ strrchr
+
+ strstr
+
+ memcpy
+
+ memmove
+
+ memset
+
+ memcmp
+
+Character functions
+ isalpha
+
+ isdigit
+
+ isalnum
+
+ isspace
+
+ islower
+
+ isupper
+
+ tolower
+
+ toupper
+
+Basic interview problems
+ find length
+
+ reverse string
+
+ palindrome
+
+ copy string
+
+ compare strings
+
+ concatenate strings
+
+ count vowels
+
+ count consonants
+
+ count digits
+
+ count spaces
+
+ count special characters
+
+ frequency of characters
+
+ duplicate characters
+
+ first repeating character
+
+ first non-repeating character
+
+ remove duplicates
+
+ remove a character
+
+ replace a character
+
+ reverse words
+
+ count words
+
+ longest word
+
+ shortest word
+
+ anagram
+
+ substring search
+
+ substring count
+
+ string rotation
+
+DSA patterns
+ two pointers
+
+ sliding window
+
+ read/write pointer
+
+ frequency array
+
+ hashing
+
+ sorting
+
+ recursion
+
+ backtracking
+
+ substring enumeration
+
+ subsequence generation
+
+ permutation generation
+
+ pattern matching
+
+ time complexity
+
+ space complexity
+
+29. String comparison
+str1 == str2
+
+with string-content comparison.
+
+For C strings:
+
+strcmp(str1, str2)
+
+== compares addresses when the operands are pointers, not the characters making up the strings.
+
+30. String copying
+37. The order I would actually teach your friend
+Don't teach 40 string problems randomly.
+
+Use this sequence:
+
+1. char
+   ↓
+2. ASCII
+   ↓
+3. char array
+   ↓
+4. '\0'
+   ↓
+5. What is a C string?
+   ↓
+6. Declaration
+   ↓
+7. Initialization
+   ↓
+8. char str[]
+   ↓
+9. char str[20]
+   ↓
+10. char *str
+   ↓
+11. array vs pointer
+   ↓
+12. sizeof vs strlen
+   ↓
+13. String input
+   ↓
+14. Pointer arithmetic
+   ↓
+15. Passing strings to functions
+   ↓
+16. strlen/strcpy/strcmp/etc.
+   ↓
+17. Implement library functions yourself
+   ↓
+18. Reverse
+   ↓
+19. Palindrome
+   ↓
+20. Frequency
+   ↓
+21. Duplicates
+   ↓
+22. Anagram
+   ↓
+23. Reverse words
+   ↓
+24. Substring
+   ↓
+25. Rotation
+   ↓
+26. Two pointers
+   ↓
+27. Sliding window
+   ↓
+28. Recursion/backtracking
+   ↓
+29. Advanced pattern matching
+
+That progression makes the later problems much easier because you're repeatedly reusing the same underlying concepts.
+
+38. One-page interview cheat sheet
+If I were teaching this in an interview-preparation session, I'd make your friend memorize these 10 facts first:
+
+C has no built-in string type.
+
+A C string is a character sequence ending in '\0'. 
+G
+GNU Operating System
+
+char str[] = "Hello";
+
+creates a 6-element array.
+
+char str[20] = "Hello";
+
+creates a 20-element array containing "Hello" plus zeros.
+
+char str[];
+
+cannot determine the array size, so it cannot define an ordinary object.
+
+strlen(str)
+
+counts characters excluding '\0'.
+
+sizeof(str)
+
+gives the size of the object when str is actually an array.
+
+char str[] = "Hello";
+
+gives a modifiable character array.
+
+const char *p = "Hello";
+
+gives a pointer to a string literal; don't modify the literal. 
+C
+Cornell Computer Science
++1
+
+For interview problems, master:
+two pointers + frequency array + read/write pointer + substring traversal + pointer arithmetic.
+
+One correction I'd make to your notes
+Instead of writing:
+
+char* str = "hello";
+
+for teaching, I'd write:
+
+const char *str = "hello";
+
+Then separately explain that char *str = "hello"; is a commonly seen older C idiom, but modifying the string literal is not valid. This prevents your friend from learning the dangerous misconception that this is a writable string. 
+C
+Cornell Computer Science
++1
+
+If you paste the file list (or the code) from those two GitHub Strings folders, I can turn this into an exact program-by-program roadmap: Program → concepts required → prerequisite concepts → expected interview questions → difficulty → time/space complexity, without guessing what's actually in your repositories.
