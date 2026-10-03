@@ -1,0 +1,192 @@
+memmove() is a great exercise because it teaches you how to handle overlapping memory regions.
+
+The key idea is:
+
+If the destination overlaps the source, the direction in which you copy matters.
+
+1. Start with the function signature
+A typical memmove looks like:
+
+void *my_memmove(void *dest, const void *src, size_t n);
+
+Why void *? Because memmove should work with any type of data.
+
+2. Understand the overlap problem
+Suppose we have:
+
+src:  [A][B][C][D][E]
+dest:     [ ][ ][ ][ ][ ]
+
+If dest starts after src, copying from left to right can destroy bytes that you haven't copied yet.
+
+For example:
+
+Before:
+[A][B][C][D][E]
+    ↑
+  dest
+
+If you copy A, then B, etc., you can overwrite the original data that you still need.
+
+So:
+
+If dest < src → copy forward
+
+If dest > src → copy backward
+
+If they are equal → nothing needs to be done
+
+3. Implement the basic version
+#include <stddef.h>
+
+void *my_memmove(void *dest, const void *src, size_t n)
+{
+    unsigned char *d = dest;
+    const unsigned char *s = src;
+
+    if (d == s)
+        return dest;
+
+    if (d < s)
+    {
+        for (size_t i = 0; i < n; i++)
+            d[i] = s[i];
+    }
+    else
+    {
+        for (size_t i = n; i > 0; i--)
+            d[i - 1] = s[i - 1];
+    }
+
+    return dest;
+}
+
+4. Why unsigned char?
+This is important.
+
+unsigned char *d = dest;
+
+Memory is fundamentally a sequence of bytes, and unsigned char lets us manipulate it one byte at a time.
+
+For example, if:
+
+int x = 123;
+
+you don't want your implementation to assume that the memory contains ints. memmove() simply moves bytes.
+
+5. Why does the backward loop look weird?
+This:
+
+for (size_t i = n; i > 0; i--)
+    d[i - 1] = s[i - 1];
+
+is intentional.
+
+You might be tempted to write:
+
+for (size_t i = n - 1; i >= 0; i--)
+
+Don't do that.
+
+size_t is unsigned. Therefore i >= 0 is always true, and the loop can run forever.
+
+Instead, we start at n and use:
+
+i > 0
+
+then access:
+
+i - 1
+
+6. Let's see the overlap
+Consider:
+
+char str[] = "abcdef";
+
+my_memmove(str + 2, str, 4);
+
+Initially:
+
+a b c d e f \0
+↑
+src
+
+    ↑
+   dest
+
+We want:
+
+a b a b c d \0
+
+Because dest is after src, we copy from the end:
+
+d → position 5
+c → position 4
+b → position 3
+a → position 2
+
+Result:
+
+a b a b c d \0
+
+If you copied forward instead, you'd overwrite bytes in src before using them.
+
+7. Test it
+#include <stdio.h>
+#include <stddef.h>
+
+void *my_memmove(void *dest, const void *src, size_t n)
+{
+    unsigned char *d = dest;
+    const unsigned char *s = src;
+
+    if (d == s)
+        return dest;
+
+    if (d < s)
+    {
+        for (size_t i = 0; i < n; i++)
+            d[i] = s[i];
+    }
+    else
+    {
+        for (size_t i = n; i > 0; i--)
+            d[i - 1] = s[i - 1];
+    }
+
+    return dest;
+}
+
+int main(void)
+{
+    char str[] = "abcdef";
+
+    my_memmove(str + 2, str, 4);
+
+    printf("%s\n", str);
+
+    return 0;
+}
+
+Output:
+
+ababcd
+
+The mental model
+Remember just this:
+
+dest before src
+        ↓
+    copy → → →
+
+dest after src
+        ↓
+    copy ← ← ←
+
+That's essentially the heart of memmove.
+
+If you're learning this for a C assignment/interview, I can also teach you how to derive the implementation yourself step-by-step without giving you the code upfront.
+
+
+
+
