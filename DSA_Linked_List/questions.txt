@@ -1,0 +1,158 @@
+Sure. Here’s a practice set of basic singly linked list problems, arranged from easy to interview level. Try solving them yourself first.
+
+Level 1 — Basics
+Create a singly linked list
+
+Create nodes and connect them.
+
+Example: 10 → 20 → 30 → NULL
+
+Traverse a linked list
+
+Print all elements.
+
+Input: 10 → 20 → 30
+
+Output: 10 20 30
+
+Find the length
+
+Return the number of nodes.
+
+Input: 10 → 20 → 30 → 40
+
+Output: 4
+
+Search for an element
+
+Check whether a given value exists.
+
+Input: 10 → 20 → 30, search 20
+
+Output: Found
+
+Find the maximum element
+
+Input: 10 → 50 → 20 → 40
+
+Output: 50
+
+Level 2 — Insertion
+Insert at the beginning
+
+Input: 20 → 30 → 40
+
+Insert 10
+
+Output: 10 → 20 → 30 → 40
+
+Insert at the end
+
+Input: 10 → 20 → 30
+
+Insert 40
+
+Output: 10 → 20 → 30 → 40
+
+Insert at a given position
+
+Input: 10 → 20 → 40
+
+Insert 30 at position 3
+
+Output: 10 → 20 → 30 → 40
+
+Insert after a given value
+
+Input: 10 → 20 → 40
+
+Insert 30 after 20
+
+Output: 10 → 20 → 30 → 40
+
+Insert before a given value
+
+Input: 10 → 30 → 40
+
+Insert 20 before 30
+
+Output: 10 → 20 → 30 → 40
+
+Level 3 — Deletion
+Delete the first node
+
+Input: 10 → 20 → 30
+
+Output: 20 → 30
+
+Delete the last node
+
+Input: 10 → 20 → 30
+
+Output: 10 → 20
+
+Delete a node at a given position
+
+Input: 10 → 20 → 30 → 40
+
+Delete position 3
+
+Output: 10 → 20 → 40
+
+Delete a node by value
+
+Input: 10 → 20 → 30 → 40
+
+Delete 30
+
+Output: 10 → 20 → 40
+
+Delete all occurrences of a value
+
+Input: 10 → 20 → 10 → 30 → 10
+
+Delete 10
+
+Output: 20 → 30
+
+Level 4 — Common Interview Questions
+Reverse a singly linked list
+
+Input: 10 → 20 → 30 → 40
+
+Output: 40 → 30 → 20 → 10
+
+Find the middle node
+
+Input: 10 → 20 → 30 → 40 → 50
+
+Output: 30
+
+Hint: Use slow and fast pointers.
+
+Find the nth node from the end
+
+Input: 10 → 20 → 30 → 40 → 50
+
+n = 2
+
+Output: 40
+
+Detect a cycle
+
+Determine whether the linked list contains a loop.
+
+Hint: Floyd's slow/fast pointer algorithm.
+
+Count occurrences of a value
+
+Input: 10 → 20 → 10 → 30 → 10
+
+Search: 10
+
+Output: 3
+
+🎯 Recommended interview practice order
+Start with 2 → 3 → 4 → 6 → 7 → 8 → 11 → 12 → 13 → 14 → 16 → 17 → 18 → 19.
+
+If you're preparing for a coding interview, start with Question 1: "Create and traverse a singly linked list." Send me your code/approach, and I'll review it like an interviewer.
