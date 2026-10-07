@@ -35,6 +35,18 @@ public:
 		head = newNode;
 	}
 
+	void push_back(int val)
+	{
+		Node* newNode = new Node(val);
+
+		if(head == NULL) {
+			head = tail = NULL; 
+		}
+
+		tail->next = newNode;
+		tail = tail->next;
+	}
+
 	void print_ll()
 	{
 		if(head == NULL) {
@@ -58,6 +70,9 @@ int main()
 	ll.push_front(10);
 	ll.push_front(20);
 	ll.push_front(30);
+
+	ll.push_back(40);
+	ll.push_back(50);
 
 	ll.print_ll();
 
