@@ -99,6 +99,38 @@ public:
 
 	}
 
+	void insert_before_val(int val, int before)
+        {
+		if(head == NULL) {
+			cout<<"Linked List is Empty"<<endl;
+			return;
+		}
+
+                Node* temp = head;
+
+		if(temp->data == before) {
+			push_front(val);
+			return;
+		}
+
+                while(temp->next!=NULL && temp->next->data!=before) {
+                        temp = temp->next;
+                }
+
+               if(temp->next == NULL) {
+                        cout<<"Entered Value is not found"<<endl;
+                        return;
+                }
+
+                Node* newNode = new Node(val);
+
+                newNode->next = temp->next;
+
+                temp->next = newNode;
+
+        }
+
+
 	void print_ll()
 	{
 		if(head == NULL) {
@@ -128,7 +160,8 @@ int main()
 
 	ll.insert_pos(100, 5);
 
-	ll.insert_after_val(200, 0);
+	ll.insert_after_val(200, 20);
+	ll.insert_before_val(150, 30);
 
 	ll.print_ll();
 
