@@ -47,6 +47,37 @@ public:
 		tail = tail->next;
 	}
 
+	void insert_pos(int val, int pos)
+	{
+		if(pos < 1) {
+			cout<<"Invalid position"<<endl;
+			return;
+		}
+
+		if(pos == 1) {
+			push_front(val);
+			return;
+		}
+
+		Node* temp = head;
+		int count = 1;
+		while(temp!=NULL && count!=pos-1) {
+			temp = temp->next;
+			count++;
+		}
+	
+		if(temp == NULL) {
+			cout<<"Position is out of range"<<endl;
+			return;
+		}	
+
+		Node* newNode = new Node(val);
+
+		newNode->next = temp->next;
+		
+		temp->next = newNode;
+	}
+
 	void print_ll()
 	{
 		if(head == NULL) {
@@ -74,6 +105,7 @@ int main()
 	ll.push_back(40);
 	ll.push_back(50);
 
+	ll.insert_pos(100, 7);
 	ll.print_ll();
 
 	return 0;
