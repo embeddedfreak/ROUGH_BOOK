@@ -78,6 +78,27 @@ public:
 		temp->next = newNode;
 	}
 
+	void insert_after_val(int val, int after)
+	{
+		Node* temp = head;
+
+		while(temp!=NULL && temp->data!=after) {
+			temp = temp->next;
+		}
+
+               if(temp == NULL) {
+                        cout<<"Entered Value is not found"<<endl;
+                        return;
+                }
+
+                Node* newNode = new Node(val);
+
+                newNode->next = temp->next;
+
+                temp->next = newNode;
+
+	}
+
 	void print_ll()
 	{
 		if(head == NULL) {
@@ -105,7 +126,10 @@ int main()
 	ll.push_back(40);
 	ll.push_back(50);
 
-	ll.insert_pos(100, 7);
+	ll.insert_pos(100, 5);
+
+	ll.insert_after_val(200, 0);
+
 	ll.print_ll();
 
 	return 0;
