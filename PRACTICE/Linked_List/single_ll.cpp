@@ -130,6 +130,50 @@ public:
 
         }
 
+	void pop_front()
+	{
+		if(head == NULL) {
+			cout<<"pop_front(): Linked LIst is Empty"<<endl;
+			return;	
+		}
+
+		Node* temp = head;
+
+		head = head->next;
+
+		if(head == NULL) {
+			tail = NULL;
+		}
+		temp->next = NULL;
+
+		delete temp;
+	}
+
+	void pop_back()
+	{
+		if(head == NULL) {
+			cout<<"pop_back(): Linked list is Empty"<<endl;
+			return;
+		}
+
+		if(head == tail) {
+			delete head;
+			head = tail = NULL;
+			return;
+		}
+	
+		Node* temp = head;
+
+		while(temp->next!=tail) {
+			temp = temp->next;
+		}
+
+		temp->next = NULL;
+		delete tail;
+		tail = temp;
+
+	}
+
 
 	void print_ll()
 	{
@@ -162,6 +206,13 @@ int main()
 
 	ll.insert_after_val(200, 20);
 	ll.insert_before_val(150, 30);
+
+	//150 30 20 200 10 40 100 50 
+
+	ll.print_ll();
+	ll.pop_front();
+
+	ll.pop_back();
 
 	ll.print_ll();
 
