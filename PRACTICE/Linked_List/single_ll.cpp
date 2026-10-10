@@ -174,6 +174,43 @@ public:
 
 	}
 
+	/* Invalid position: pos < 1 is handled.
+	 * First position: Delegates to pop_front().
+	 * Traversal: Finds the node immediately before the target.
+	 * Out-of-range position: Checks temp == NULL || temp->next == NULL before dereferencing the target.
+	 * Deletion: Correctly updates the link before freeing the node.
+	 */
+	void pop_pos(int pos)
+	{
+		if(pos < 1) {
+			cout<<"Invalid Position"<<endl;
+			return;
+		}
+	
+		if(pos == 1) 
+		{
+			pop_front();
+			return;
+		}	
+
+		Node* temp = head;
+		int count = 1;
+		while(temp!=NULL && count != pos-1) {
+			temp = temp->next;
+			count++;
+		}
+
+		if(temp == NULL || temp->next == NULL) {
+			cout<<"Position it out of range"<<endl;
+			return;
+		}
+
+		Node* del_node = temp->next;
+		temp->next = del_node->next;
+		delete(del_node);
+
+	}
+
 
 	void print_ll()
 	{
@@ -213,6 +250,8 @@ int main()
 	ll.pop_front();
 
 	ll.pop_back();
+
+	ll.pop_pos(3);
 
 	ll.print_ll();
 
