@@ -211,6 +211,36 @@ public:
 
 	}
 
+	void pop_val(int val)
+	{
+		if(head == NULL) {
+			cout<<"Linked list is empty"<<endl;
+			return;
+		}
+
+		Node* temp = head;
+		if(temp->data == val) {
+			pop_front();
+			return;
+		}
+
+		while(temp->next!=NULL && temp->next->data!=val) {
+			temp = temp->next;
+		}	
+
+		if(temp->next == NULL) {
+			cout<<"Entered Value is not found"<<endl;
+			return;
+		}
+
+		Node* del_node = temp->next;
+
+		temp->next = del_node->next;
+
+		delete(del_node);
+
+	}
+
 
 	void print_ll()
 	{
@@ -252,6 +282,7 @@ int main()
 	ll.pop_back();
 
 	ll.pop_pos(3);
+	ll.pop_val(20);
 
 	ll.print_ll();
 
