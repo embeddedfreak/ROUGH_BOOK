@@ -68,17 +68,14 @@ bool has_cycle(Node* head) {
 	Node* slow = head;
 	Node* fast = head;
 
-	bool cycle = false;
-
 	while(fast!=NULL && fast->next!=NULL) {
 		slow = slow->next;
 		fast = fast->next->next;
 		if(slow == fast) {
-			cycle = true;
-			break;
+			return true;
 		}
 	}
-	return cycle;
+	return false;
 }
 
 
@@ -96,9 +93,12 @@ int main()
 
 	if(has_cycle(ll.head)) {
 		cout<<"Has cycle"<<endl;
+
 	} else {
 		cout<<"No cycle"<<endl;
 	}
+
+
 
 	return 0;
 }
