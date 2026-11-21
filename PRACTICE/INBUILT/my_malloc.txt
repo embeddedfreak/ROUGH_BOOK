@@ -1,0 +1,270 @@
+Writing your own malloc() in C is a great way to understand how dynamic memory allocation works internally.
+
+The goal is to implement something like:
+
+
+c
+void *my_malloc(size_t size);
+void my_free(void *ptr);
+Your allocator will manage a region of memory, divide it into blocks, and keep track of which blocks are allocated and which are free.
+
+Let's build one step by step.
+
+1. Understand how malloc works
+When you call:
+
+
+c
+int *p = malloc(10 * sizeof(int));
+The allocator needs to:
+
+Find a free memory block large enough for 10 integers.
+
+Mark that block as allocated.
+
+Return a pointer to the usable memory.
+
+Remember the block's size and allocation status.
+
+When you call free(p), it marks that block as free so it can be reused.
+
+The important concept is that malloc maintains metadata about memory blocks.
+
+2. Create a block structure
+We need metadata before every allocated memory block.
+
+
+c
+#include <stdio.h>
+#include <stddef.h>
+#include <unistd.h>
+
+typedef struct block {
+    size_t size;
+    int free;
+    struct block *next;
+} block_t;
+Memory layout:
+
+Block metadata
+
+size | free | next
+
+User memory
+
+Actual memory returned by malloc
+
+One complete memory block
+The user receives a pointer to the user memory, not the metadata.
+
+3. Implement a simple malloc
+For learning purposes, we'll use sbrk() to request more memory from the operating system.
+
+
+c
+#include <stdio.h>
+#include <unistd.h>
+#include <stddef.h>
+
+typedef struct block {
+    size_t size;
+    int free;
+    struct block *next;
+} block_t;
+
+static block_t *head = NULL;
+
+void *my_malloc(size_t size)
+{
+    if (size == 0)
+        return NULL;
+
+    block_t *curr = head;
+
+    // Search for a free block
+    while (curr != NULL) {
+        if (curr->free && curr->size >= size) {
+            curr->free = 0;
+            return (void *)(curr + 1);
+        }
+
+        curr = curr->next;
+    }
+
+    // Request more memory
+    block_t *new_block = sbrk(sizeof(block_t) + size);
+
+    if (new_block == (void *)-1)
+        return NULL;
+
+    new_block->size = size;
+    new_block->free = 0;
+    new_block->next = NULL;
+
+    // Add block to linked list
+    if (head == NULL) {
+        head = new_block;
+    } else {
+        curr = head;
+
+        while (curr->next != NULL)
+            curr = curr->next;
+
+        curr->next = new_block;
+    }
+
+    return (void *)(new_block + 1);
+}
+Important concepts
+Why curr + 1?
+
+Suppose curr points to the metadata:
+
+
+c
+block_t *curr;
+Then:
+
+
+c
+curr + 1
+moves the pointer past the entire metadata structure.
+
+This gives us the beginning of the usable memory.
+
+Why use sbrk()?
+
+sbrk() increases the process's data segment (program break), allowing us to obtain more memory.
+
+Note: sbrk() is obsolete and not suitable for production allocators. This is a learning implementation.
+
+4. Implement free()
+Now we need to release memory for reuse.
+
+
+c
+void my_free(void *ptr)
+{
+    if (ptr == NULL)
+        return;
+
+    block_t *block = (block_t *)ptr - 1;
+
+    block->free = 1;
+}
+Why ptr - 1?
+
+Because the returned pointer points immediately after the metadata.
+
+Moving backward by one block_t retrieves the metadata.
+
+5. Test your allocator
+
+c
+int main()
+{
+    int *a = my_malloc(5 * sizeof(int));
+
+    if (a == NULL)
+        return 1;
+
+    for (int i = 0; i < 5; i++)
+        a[i] = i * 10;
+
+    for (int i = 0; i < 5; i++)
+        printf("%d ", a[i]);
+
+    printf("\n");
+
+    my_free(a);
+
+    return 0;
+}
+Expected output:
+
+
+text
+0 10 20 30 40
+6. How does a real malloc work?
+Our implementation is intentionally basic. A real allocator needs several additional features.
+
+Allocator architecture
+my_malloc(size)
+
+Find a suitable free block
+
+First fit / Best fit / Next fit
+
+Split the block if necessary
+
+Avoid wasting unused memory
+
+Return aligned user memory
+
+my_free(ptr)
+
+Mark block free and coalesce
+
+Merge adjacent free blocks
+
+Here are the features you should implement next:
+
+Feature
+
+Purpose
+
+Alignment
+
+Ensure pointers satisfy C alignment requirements
+
+Block splitting
+
+Avoid wasting large blocks
+
+Coalescing
+
+Merge adjacent free blocks
+
+calloc()
+
+Allocate and zero-initialize memory
+
+realloc()
+
+Resize existing allocations
+
+Free list
+
+Find free blocks efficiently
+
+mmap()
+
+Obtain large memory regions
+
+One important warning: The example above is only a conceptual allocator. It doesn't handle alignment, integer overflow, thread safety, or invalid/double frees, and mixing sbrk() with the system allocator can cause problems. Don't use it as a replacement for libc's malloc().
+
+7. My recommended learning roadmap
+If you want to implement malloc from scratch like a systems programmer, follow this order:
+
+Implement basic malloc() using a linked list.
+
+Implement free().
+
+Implement block splitting.
+
+Implement block coalescing.
+
+Implement memory alignment.
+
+Implement calloc().
+
+Implement realloc().
+
+Replace sbrk() with mmap().
+
+Add a free-list optimization.
+
+Let's take it further
+I recommend implementing a mini malloc allocator from scratch, similar to what you might build for an operating systems or systems programming project.
+
+The most interesting next step is block splitting and coalescing because that's where you'll really understand how memory allocators work.
